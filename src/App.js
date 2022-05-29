@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import React from "react";
+import { useState, useEffect } from "react";
+import Search from "./components/search/Search";
+import Card from "./components/card/Card";
+//https://api.openweathermap.org/data/2.5/weather?q=delhi&appid=c0af6c26f7c741a6d8e528f2e357fac6
 
-function App() {
+const App = () => {
+  const [location, setLocation] = useState("");
+  const [temp, setTemp] = useState({});
+  const [name, setName] = useState({});
+  const baseUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=c0af6c26f7c741a6d8e528f2e357fac6`;
+
+  useEffect(() => {
+    axios.get(baseUrl).then((response) => {
+      setName(response.data);
+      setTemp(response.data.main);
+    });
+  }, [location]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div>
+        <Search setLocation={setLocation} />
+        <Card temp={temp} name={name} />
+      </div>
+    </>
   );
-}
+};
 
 export default App;
