@@ -21,6 +21,7 @@ const App = () => {
   return (
     <>
       <div>
+        <div>Hello</div>
         <Search setLocation={setLocation} />
         <Card temp={temp} name={name} />
       </div>
